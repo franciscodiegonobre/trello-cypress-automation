@@ -18,12 +18,21 @@ describe("First test suite", () => {
     cy.createList('List title')
   });
 
-  it("Creates a Card in a List", () => {
+  it.only("Creates a Card in a List", () => {
     cy.visit('/')
     cy.selectBoard('Test board 1')
-    cy.createCard('To Do', 'Card name 2')
-    cy.createCard('Done', 'Card name 3')
-  });  
+    cy.createCard('Done', 'Card name 1')
+    cy.wait(500)
+    cy.editCard('Card name 1')
+    })
+  }); 
+
+  // cy.get('.editable').find('#ak-editor-textarea').then( input => {
+  //   cy.wrap(input).click({force: true})
+  //   cy.wrap(input).type('Card description')
+  //   cy.get('.confirm').click()
+  // })
+
 // Create an After test to delete all boards
 // cy.contains('[data-testid="collapsible-list"]', 'Your boards ').find('[data-testid="OverflowMenuHorizontalIcon"]')
-});
+

@@ -1,0 +1,14 @@
+{
+  "name": "trello-automation",
+  "version": "1.0.0",
+  "description": "Trello automation with Cypress",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Francisco Nobre",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^13.9.0"
+  }
+}

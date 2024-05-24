@@ -1,0 +1,17 @@
+{
+  "login": {
+    "loginHeaderButton": "[data-testid='bignav']",
+    "usernameField": "#username",
+    "passwordField": "#password",
+    "loginSubmitButton": "#login-submit"
+  },
+  "header": {
+    "navHeader": "#header",
+    "createBoardButton": "[data-testid='header-create-board-button']",
+    "createBoardTitleInput": "[data-testid='create-board-title-input']",
+    "createBoardSubmitButton": "[data-testid='create-board-submit-button']"
+  },
+  "board": {
+    "nameDisplay": "[data-testid='board-name-display']"
+  }
+}

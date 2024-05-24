@@ -53,7 +53,14 @@ Cypress.Commands.add("createBoard", (boardName) => {
 Cypress.Commands.add("selectBoard", (boardName) => {
     cy.get(`[title='${boardName}']`).click()
     cy.get(selectors.board.nameDisplay).should("have.text", boardName);
-  });
+});
+
+Cypress.Commands.add("createList", (listName) => {
+    cy.get('[data-testid="list-composer-button-container"]').find('button').click()
+    cy.get('[name="Enter list title…"]').type(listName)
+    cy.contains('Add list').click()
+    cy.get(`[aria-label='${listName}']`).should('exist')
+});
 
 // Cypress.Commands.add("loginToTrelloApi", () => {
 //   cy.request({

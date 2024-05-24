@@ -12,12 +12,18 @@ describe("First test suite", () => {
     cy.createBoard('Test board 2')
   });
 
-  it.only("Selects a Board and creates a List", () => {
+  it("Selects a Board and creates a List", () => {
     cy.visit('/')
     cy.selectBoard('Test board 1')
     cy.createList('List title')
   });
 
+  it("Creates a Card in a List", () => {
+    cy.visit('/')
+    cy.selectBoard('Test board 1')
+    cy.createCard('To Do', 'Card name 2')
+    cy.createCard('Done', 'Card name 3')
+  });  
 // Create an After test to delete all boards
 // cy.contains('[data-testid="collapsible-list"]', 'Your boards ').find('[data-testid="OverflowMenuHorizontalIcon"]')
 });

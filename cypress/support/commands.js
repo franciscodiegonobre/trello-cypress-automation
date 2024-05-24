@@ -62,6 +62,18 @@ Cypress.Commands.add("createList", (listName) => {
     cy.get(`[aria-label='${listName}']`).should('exist')
 });
 
+Cypress.Commands.add("createCard", (listName, cardName) => {
+    cy.contains('li', listName).find('[data-testid="list-add-card-button"]').then(cardList => {
+        cy.wrap(cardList).click()
+        cy.get('form').find('textarea').type(cardName)
+        cy.contains('Add card').click()
+      }
+    )
+    cy.contains('li', listName).find('[data-testid="card-name"]').should('have.text', cardName)
+});
+
+// cy.wrap('[data-testid="card-name"]').should('have.text', cardName)
+
 // Cypress.Commands.add("loginToTrelloApi", () => {
 //   cy.request({
 //     method: "GET",

@@ -26,10 +26,16 @@ describe("First test suite", () => {
     cy.addCardDescription('Card name 2', 'Testing card description')
   }); 
 
-  it.only("Adds a predefined color Label to a Card", () => {
+  it("Adds a predefined color Label to a Card", () => {
     cy.visit('/')
     cy.selectBoard('Test board 1')
     cy.addCardLabel('Card name 2', 'purple')
+  }); 
+
+  it.only("Adds a link as an Attachment and opens the link", () => {
+    cy.visit('/')
+    cy.selectBoard('Test board 1')
+    cy.addCardLink('Card name 1', 'www.google.com', 'Google link title')
   }); 
 });
 

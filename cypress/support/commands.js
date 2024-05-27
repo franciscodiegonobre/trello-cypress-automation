@@ -99,6 +99,19 @@ Cypress.Commands.add("addCardLabel", (cardName, cardLabelColor) => {
     })
 });
 
+// Adds a link as an Attachment: pass the link url and the link title
+Cypress.Commands.add("addCardLink", (cardName, cardLink, cardLinkTitle) => {
+  cy.editCard(cardName)
+  cy.get('[data-testid="card-back-attachment-button"]').click()
+  cy.wait(500)
+  cy.get('[data-testid="link-picker"]').find('input').first().type(cardLink)
+  cy.get('[data-testid="link-picker"]').find('input').last().type(cardLinkTitle)
+  cy.get('[data-testid="link-picker"]').submit()
+  cy.get('.attachment-thumbnail').then( attachment => {
+    expect(attachment).to.be.visible
+  })
+});
+
 // cy.wrap('[data-testid="card-name"]').should('have.text', cardName)
 
 // Cypress.Commands.add("loginToTrelloApi", () => {

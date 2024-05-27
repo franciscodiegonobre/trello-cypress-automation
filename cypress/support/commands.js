@@ -74,6 +74,7 @@ Cypress.Commands.add("createCard", (listName, cardName) => {
 
 Cypress.Commands.add("editCard", (cardName) => {
     cy.contains('[data-testid="card-name"]', cardName).click()
+    cy.get('.window-title').find('h2').should('have.text', cardName)
 });
 
 // cy.wrap('[data-testid="card-name"]').should('have.text', cardName)

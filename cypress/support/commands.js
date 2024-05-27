@@ -77,6 +77,16 @@ Cypress.Commands.add("editCard", (cardName) => {
     cy.get('.window-title').find('h2').should('have.text', cardName)
 });
 
+Cypress.Commands.add("addCardDescription", (cardName, cardDescription) => {
+  cy.editCard(cardName)
+  cy.get('.editable').find('#ak-editor-textarea').then( input => {
+  cy.wrap(input).click({force: true})
+  cy.wrap(input).type(cardDescription)
+  cy.get('.confirm').click()
+  cy.get('[attr="desc"]').find('p').should('contain', cardDescription)
+  })
+});
+
 // cy.wrap('[data-testid="card-name"]').should('have.text', cardName)
 
 // Cypress.Commands.add("loginToTrelloApi", () => {

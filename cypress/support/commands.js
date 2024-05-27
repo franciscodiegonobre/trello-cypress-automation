@@ -87,6 +87,18 @@ Cypress.Commands.add("addCardDescription", (cardName, cardDescription) => {
   })
 });
 
+// Selects a predefined color Label among: 'green', 'yellow', 'orange', 'red', 'purple', 'blue'
+Cypress.Commands.add("addCardLabel", (cardName, cardLabelColor) => {
+  cy.editCard(cardName)
+    cy.get('[title="Labels"]').click()
+    cy.get(`[data-color='${cardLabelColor}']`).then( labelColor => {
+      cy.wrap(labelColor).click()
+      cy.wrap(labelColor).parent().find('button').click()
+      cy.get('[data-testid="popover-close"]').click()
+      cy.get('[data-testid="card-back-labels-container"]').find('span').should('have.attr', 'data-color', cardLabelColor)
+    })
+});
+
 // cy.wrap('[data-testid="card-name"]').should('have.text', cardName)
 
 // Cypress.Commands.add("loginToTrelloApi", () => {

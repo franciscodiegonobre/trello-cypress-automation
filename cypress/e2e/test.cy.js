@@ -18,12 +18,18 @@ describe("First test suite", () => {
     cy.createList('List title')
   });
 
-  it.only("Creates a Card in a List and adds a Description", () => {
+  it("Creates a Card in a List and adds a Description", () => {
     cy.visit('/')
     cy.selectBoard('Test board 1')
     cy.createCard('Doing', 'Card name 2')
     cy.wait(500)
     cy.addCardDescription('Card name 2', 'Testing card description')
+  }); 
+
+  it.only("Adds a predefined color Label to a Card", () => {
+    cy.visit('/')
+    cy.selectBoard('Test board 1')
+    cy.addCardLabel('Card name 2', 'purple')
   }); 
 });
 

@@ -32,12 +32,21 @@ describe("First test suite", () => {
     cy.addCardLabel('Card name 2', 'purple')
   }); 
 
-  it.only("Adds a link as an Attachment and asserts the link", () => {
+  it("Adds a link as an Attachment and asserts the link", () => {
     cy.visit('/')
     cy.selectBoard('Test board 1')
-    cy.addCardLink('Card name 1', 'https://www.netcentric.biz/', 'Google link title')
+    cy.addCardLink('Card name 2', 'https://www.netcentric.biz/', 'Google link title')
     cy.wait(500)
+    // Asserts the attached link
     cy.get('.attachment-thumbnail-details-title-action').should('have.attr', 'href', 'https://www.netcentric.biz/')
+  }); 
+
+  it.only("Moves a list to another board", () => {
+    cy.visit('/')
+    cy.selectBoard('Test board 1')
+    cy.createList('List title')
+    cy.wait(500)
+    cy.moveList('List title', 'Test board 2')
   }); 
 });
 

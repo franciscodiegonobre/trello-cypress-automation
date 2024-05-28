@@ -104,13 +104,28 @@ Cypress.Commands.add("addCardLink", (cardName, cardLink, cardLinkTitle) => {
   cy.editCard(cardName)
   cy.get('[data-testid="card-back-attachment-button"]').click()
   cy.wait(500)
-  cy.get('[data-testid="link-picker"]').find('input').first().type(cardLink)
+  cy.get('[data-testid="link-picker"]').find('input').first().type(cardLink, { delay: 200 })
   cy.get('[data-testid="link-picker"]').find('input').last().type(cardLinkTitle)
   cy.get('[data-testid="link-picker"]').submit()
   cy.get('.attachment-thumbnail').then( attachment => {
     expect(attachment).to.be.visible
   })
 });
+
+  Cypress.Commands.add("moveList", (listName, newBoard) => {
+    // Selects the right list
+    cy.contains(listName).parent().siblings().click()
+    cy.get('[data-testid="list-actions-move-list-button"]').click()
+    cy.wait(500)
+    // Types and selects the new list
+    cy.get('[data-testid="list-actions-move-list-popover"]').find('input').first().type(`${newBoard}{enter}`)
+    cy.get('[data-testid="list-actions-move-list-popover"]').contains('button', 'Move').click()
+    // Asserts that the list is not in the current board anymore
+    cy.get('[data-testid="lists"]').should('not.contain', listName)
+    // Asserts that the list exists (has been moved) to another board
+    cy.get(`[aria-label='${newBoard}']`).click()
+    cy.get('[data-testid="lists"]').should('contain', listName)
+  })
 
 // cy.wrap('[data-testid="card-name"]').should('have.text', cardName)
 

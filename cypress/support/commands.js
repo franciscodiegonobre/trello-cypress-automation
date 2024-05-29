@@ -71,35 +71,34 @@ Cypress.Commands.add("createCard", (listName, cardName) => {
         cy.contains('Add card').click()
       }
     )
-    cy.contains('li', listName).find('[data-testid="card-name"]').should('have.text', cardName)
+    cy.contains('li', listName).find(selectors.card.cardName).should('have.text', cardName)
 });
 
 Cypress.Commands.add("editCard", (cardName) => {
-    cy.contains('[data-testid="card-name"]', cardName).click()
+    cy.contains(selectors.card.cardName, cardName).click()
     cy.wait(500)
-    cy.get('#js-dialog-title').should('have.text', cardName)
-    //cy.get('.window-title').find('h2').should('have.text', cardName)
+    cy.get(selectors.card.cardNameDialog).should('have.text', cardName)
 });
 
 Cypress.Commands.add("addCardDescription", (cardName, cardDescription) => {
   cy.editCard(cardName)
-  cy.get('.editable').find('#ak-editor-textarea').then( input => {
+  cy.get('.editable').find(selectors.card.cardDescription).then( input => {
   cy.wrap(input).click({force: true})
   cy.wrap(input).type(cardDescription)
   cy.get('.confirm').click()
-  cy.get('[attr="desc"]').find('p').should('contain', cardDescription)
+  cy.get(selectors.card.cardDescriptionText).find('p').should('contain', cardDescription)
   })
 });
 
 // Selects a predefined color Label among: 'green', 'yellow', 'orange', 'red', 'purple', 'blue'
 Cypress.Commands.add("addCardLabel", (cardName, cardLabelColor) => {
   cy.editCard(cardName)
-    cy.get('[title="Labels"]').click()
+    cy.get(selectors.card.cardLabelsButton).click()
     cy.get(`[data-color='${cardLabelColor}']`).then( labelColor => {
       cy.wrap(labelColor).click()
       cy.wrap(labelColor).parent().find('button').click()
-      cy.get('[data-testid="popover-close"]').click()
-      cy.get('[data-testid="card-back-labels-container"]').find('span').should('have.attr', 'data-color', cardLabelColor)
+      cy.get(selectors.card.cardLabelClose).click()
+      cy.get(selectors.card.cardLabelIcon).find('span').should('have.attr', 'data-color', cardLabelColor)
     })
 });
 

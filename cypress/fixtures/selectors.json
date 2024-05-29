@@ -27,6 +27,12 @@
     "attachedLink": ".attachment-thumbnail-details-title-action",
     "closeDialog": "[aria-label='Close dialog']",
     "addCardButton": "[data-testid='list-add-card-button']",
-    "cardName": "[data-testid='card-name']"
+    "cardName": "[data-testid='card-name']",
+    "cardNameDialog": "#js-dialog-title",
+    "cardDescription": "#ak-editor-textarea",
+    "cardDescriptionText": "[attr='desc']",
+    "cardLabelsButton": "[title='Labels']",
+    "cardLabelClose": "[data-testid='popover-close']",
+    "cardLabelIcon": "[data-testid='card-back-labels-container']"
   }
 }

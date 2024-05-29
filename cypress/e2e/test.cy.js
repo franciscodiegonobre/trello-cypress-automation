@@ -1,8 +1,8 @@
 /// <reference types="cypress" />
 import selectors from "../fixtures/selectors.json";
 
-const userName = "franciscodiegonobre@gmail.com";
-const password = "automationpwd123";
+const userName = Cypress.env('userName');;
+const password = Cypress.env('password');;
 
 describe("First test suite", () => {
 

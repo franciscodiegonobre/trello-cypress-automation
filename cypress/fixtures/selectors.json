@@ -12,6 +12,15 @@
     "createBoardSubmitButton": "[data-testid='create-board-submit-button']"
   },
   "board": {
-    "nameDisplay": "[data-testid='board-name-display']"
+    "nameDisplay": "[data-testid='board-name-display']",
+    "boardsPageButton": ".boards-page-board-section-header-options",
+    "boardsList": "[data-testid='collapsible-list-items']",
+    "boardItem": "[role='menu']",
+    "closeBoard": "[title='Close board']",
+    "closeBoardFinal": "[title='Close']"
+  },
+  "card": {
+    "attachedLink": ".attachment-thumbnail-details-title-action",
+    "closeDialog": "[aria-label='Close dialog']"
   }
 }

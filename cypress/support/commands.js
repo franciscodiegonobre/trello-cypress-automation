@@ -108,7 +108,7 @@ Cypress.Commands.add("addCardLink", (cardName, cardLink, cardLinkTitle) => {
   cy.editCard(cardName)
   cy.get('[data-testid="card-back-attachment-button"]').click()
   cy.wait(500)
-  cy.get('[data-testid="link-picker"]').find('input').first().type(cardLink, { delay: 200 })
+  cy.get('[data-testid="link-picker"]').find('input').first().type(cardLink, { delay: 100 })
   cy.get('[data-testid="link-picker"]').find('input').last().type(cardLinkTitle)
   cy.get('[data-testid="link-picker"]').submit()
   cy.get('.attachment-thumbnail').then( attachment => {

@@ -1,12 +1,11 @@
 /// <reference types="cypress" />
+import selectors from "../fixtures/selectors.json";
+
 const userName = "franciscodiegonobre@gmail.com";
 const password = "automationpwd123";
 
 describe("First test suite", () => {
-  // before('Clear cookies', () => {
-  //   cy.clearCookies()
-  // })
-  
+
   beforeEach('Login', () => {
     cy.loginToTrelloUi(userName, password)
   })
@@ -42,30 +41,30 @@ describe("First test suite", () => {
     cy.createCard('Doing', 'Card name 2')
     cy.wait(500)
     cy.addCardDescription('Card name 2', 'Testing card description')
-    // Close the card dialog
-    cy.get('[aria-label="Close dialog"]').click()
+    // Closes the card dialog
+    cy.get(selectors.card.closeDialog).click()
     // Adds a predefined color Label to a Card
     cy.addCardLabel('Card name 2', 'purple')
   }); 
 
-  it.skip("Adds a link as an Attachment and asserts the link", () => {
+  it("Adds a link as an Attachment and asserts the link", () => {
     cy.visit('/')
     cy.selectBoard('Test board 1')
     cy.addCardLink('Card name 2', 'https://www.netcentric.biz/', 'NC link title')
     cy.wait(500)
     // Asserts the attached link
-    cy.get('.attachment-thumbnail-details-title-action').should('have.attr', 'href', 'https://www.netcentric.biz/')
+    cy.get(selectors.card.attachedLink).should('have.attr', 'href', 'https://www.netcentric.biz/')
   }); 
 
   after('Close all boards', () => {
     cy.clearCookies()
     cy.loginToTrelloUi(userName, password)
     cy.visit('/')
-    cy.get('.boards-page-board-section-header-options').contains('Boards').click()
-    cy.get('[data-testid="collapsible-list-items"]').last().find('[role="menu"]').each( (button) => {
+    cy.get(selectors.board.boardsPageButton).contains('Boards').click()
+    cy.get(selectors.board.boardsList).last().find(selectors.board.boardItem).each( (button) => {
     cy.wrap(button).find('button').click({force: true})
-    cy.get('[title="Close board"]').click()
-    cy.get('[title="Close"]').click()
+    cy.get(selectors.board.closeBoard).click()
+    cy.get(selectors.board.closeBoardFinal).click()
     })
   });
 

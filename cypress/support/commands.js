@@ -62,7 +62,6 @@ Cypress.Commands.add("createList", (listName) => {
     cy.contains('Add list').click()
     cy.wait(500)
     cy.get(`[aria-label='${listName}']`).should('exist')
-    cy.reload(true)
 });
 
 Cypress.Commands.add("createCard", (listName, cardName) => {
@@ -133,35 +132,3 @@ Cypress.Commands.add("addCardLink", (cardName, cardLink, cardLinkTitle) => {
     cy.get('[data-testid="lists"]').should('contain', listName)
   })
 
-// cy.wrap('[data-testid="card-name"]').should('have.text', cardName)
-
-// Cypress.Commands.add("loginToTrelloApi", () => {
-//   cy.request({
-//     method: "GET",
-//     url: "https://api.trello.com/1/members/me",
-//     qs: {
-//       key: "b0ca80be29645698f9fea4abf367c349",
-//       token:
-//         "ATTA242c79bdfc9ea8b0e9d97a7f92f05760951c6dc84bfa98a8e6101746c12a0a9590F7D629",
-//     },
-//   }).then((response) => {
-//     expect(response.status).to.eq(200);
-//     cy.log("Logged in as: " + response.body.fullName);
-//   });
-// });
-
-//   Cypress.Commands.add("loginToTrelloHeadless", () => {
-//     cy.request({
-//         method: 'GET',
-//         url: 'https://api.trello.com/1/authorize/',
-//         body: {
-//           key: 'b0ca80be29645698f9fea4abf367c349',
-//           token: 'ATTA242c79bdfc9ea8b0e9d97a7f92f05760951c6dc84bfa98a8e6101746c12a0a9590F7D629',
-//           response_type: 'token'
-//         }
-//       }).then((response) => {
-//         const { apiKey, token } = response.body;
-//         cy.setCookie('token', token);
-//         cy.setCookie('apiKey', apiKey);
-//       });
-//   });

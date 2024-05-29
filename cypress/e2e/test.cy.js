@@ -18,12 +18,21 @@ describe("First test suite", () => {
     cy.createBoard('Test board 2')
   });
 
-  it.skip("Selects a Board and creates a List", () => {
+  it("Selects a Board and creates a List", () => {
     cy.visit('/')
+    cy.reload(true)
     cy.selectBoard('Test board 1')
     cy.wait(500)
     cy.createList('List title')
   });
+
+  it("Moves a list to another board", () => {
+    cy.visit('/')
+    cy.reload(true)
+    cy.selectBoard('Test board 1')
+    cy.wait(500)
+    cy.moveList('List title', 'Test board 2')
+  }); 
 
   it.skip("Creates a Card in a List and adds a Description", () => {
     cy.visit('/')
@@ -47,13 +56,6 @@ describe("First test suite", () => {
     cy.wait(500)
     // Asserts the attached link
     cy.get('.attachment-thumbnail-details-title-action').should('have.attr', 'href', 'https://www.netcentric.biz/')
-  }); 
-
-  it.skip("Moves a list to another board", () => {
-    cy.visit('/')
-    cy.selectBoard('Test board 1')
-    cy.wait(500)
-    cy.moveList('List title', 'Test board 2')
   }); 
 
   after('Close all boards', () => {

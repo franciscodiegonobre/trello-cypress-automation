@@ -34,18 +34,17 @@ describe("First test suite", () => {
     cy.moveList('List title', 'Test board 2')
   }); 
 
-  it.skip("Creates a Card in a List and adds a Description", () => {
+  it("Creates a Card in a List, adds a Description and a color Label", () => {
     cy.visit('/')
+    cy.reload(true)
     cy.selectBoard('Test board 1')
     cy.wait(500)
     cy.createCard('Doing', 'Card name 2')
     cy.wait(500)
     cy.addCardDescription('Card name 2', 'Testing card description')
-  }); 
-
-  it.skip("Adds a predefined color Label to a Card", () => {
-    cy.visit('/')
-    cy.selectBoard('Test board 1')
+    // Close the card dialog
+    cy.get('[aria-label="Close dialog"]').click()
+    // Adds a predefined color Label to a Card
     cy.addCardLabel('Card name 2', 'purple')
   }); 
 

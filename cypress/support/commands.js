@@ -41,6 +41,7 @@ Cypress.Commands.add("loginToTrelloUi", (username, password) => {
   });
 });
 
+// Creates a board with a board name as param
 Cypress.Commands.add("createBoard", (boardName) => {
   cy.get(selectors.header.navHeader).find("p", "Create").click();
   cy.wait(500)
@@ -50,12 +51,14 @@ Cypress.Commands.add("createBoard", (boardName) => {
   cy.get(selectors.board.nameDisplay).should("have.text", boardName);
 });
 
+// Selects a Board by Board name as param
 Cypress.Commands.add("selectBoard", (boardName) => {
     cy.get(`[title='${boardName}']`).click()
     cy.wait(500)
     cy.get(selectors.board.nameDisplay).should("have.text", boardName);
 });
 
+// Creates a List with a list name as param
 Cypress.Commands.add("createList", (listName) => {
     cy.get(selectors.list.listContainer).find('button').click()
     cy.get(selectors.list.listTitleInput).type(listName)
@@ -64,6 +67,7 @@ Cypress.Commands.add("createList", (listName) => {
     cy.get(`[aria-label='${listName}']`).should('exist')
 });
 
+// Creates a Card with a Card name by selecting a List
 Cypress.Commands.add("createCard", (listName, cardName) => {
     cy.contains('li', listName).find(selectors.card.addCardButton).then(cardList => {
         cy.wrap(cardList).click()
@@ -74,12 +78,14 @@ Cypress.Commands.add("createCard", (listName, cardName) => {
     cy.contains('li', listName).find(selectors.card.cardName).should('have.text', cardName)
 });
 
+// Selects a card by Card name and opens its dialog
 Cypress.Commands.add("editCard", (cardName) => {
     cy.contains(selectors.card.cardName, cardName).click()
     cy.wait(500)
     cy.get(selectors.card.cardNameDialog).should('have.text', cardName)
 });
 
+// Adds a Description to a Card
 Cypress.Commands.add("addCardDescription", (cardName, cardDescription) => {
   cy.editCard(cardName)
   cy.get('.editable').find(selectors.card.cardDescription).then( input => {
@@ -105,29 +111,29 @@ Cypress.Commands.add("addCardLabel", (cardName, cardLabelColor) => {
 // Adds a link as an Attachment: pass the link url and the link title
 Cypress.Commands.add("addCardLink", (cardName, cardLink, cardLinkTitle) => {
   cy.editCard(cardName)
-  cy.get('[data-testid="card-back-attachment-button"]').click()
+  cy.get(selectors.card.cardAttachmentButton).click()
   cy.wait(500)
-  cy.get('[data-testid="link-picker"]').find('input').first().type(cardLink, { delay: 100 })
-  cy.get('[data-testid="link-picker"]').find('input').last().type(cardLinkTitle)
-  cy.get('[data-testid="link-picker"]').submit()
-  cy.get('.attachment-thumbnail').then( attachment => {
+  cy.get(selectors.card.cardLinkPicker).find('input').first().type(cardLink, { delay: 100 })
+  cy.get(selectors.card.cardLinkPicker).find('input').last().type(cardLinkTitle)
+  cy.get(selectors.card.cardLinkPicker).submit()
+  cy.get(selectors.card.cardAttachmentThumbnail).then( attachment => {
     expect(attachment).to.be.visible
   })
 });
 
+// Selects a list in a Board and moves it to another Board
   Cypress.Commands.add("moveList", (listName, newBoard) => {
     // Selects the right list
     cy.contains(listName).parent().siblings().click()
-    cy.get('[data-testid="list-actions-move-list-button"]').click()
+    cy.get(selectors.list.listMoveButton).click()
     cy.wait(1000)
     // Types and selects the new list
-    cy.get('[data-testid="list-actions-move-list-popover"]').find('input').first().type(`${newBoard}{enter}`)
-    cy.get('[data-testid="list-actions-move-list-popover"]').contains('button', 'Move').click()
+    cy.get(selectors.list.listMovePopover).find('input').first().type(`${newBoard}{enter}`)
+    cy.get(selectors.list.listMovePopover).contains('button', 'Move').click()
     // Asserts that the list is not in the current board anymore
-    cy.get('[data-testid="lists"]').should('not.contain', listName)
+    cy.get(selectors.list.allLists).should('not.contain', listName)
     // Asserts that the list exists (has been moved) to another board
-    // cy.get('[data-testid="boards-list-show-more-button"]').click()
     cy.get(`[aria-label='${newBoard}']`).click()
-    cy.get('[data-testid="lists"]').should('contain', listName)
+    cy.get(selectors.list.allLists).should('contain', listName)
   })
 

@@ -21,7 +21,10 @@
   },
   "list": {
     "listContainer": "[data-testid='list-composer-button-container']",
-    "listTitleInput": "[name='Enter list title…']"
+    "listTitleInput": "[name='Enter list title…']",
+    "listMoveButton": "[data-testid='list-actions-move-list-button']",
+    "listMovePopover": "[data-testid='list-actions-move-list-popover']",
+    "allLists": "[data-testid='lists']"
   },
   "card": {
     "attachedLink": ".attachment-thumbnail-details-title-action",
@@ -33,6 +36,9 @@
     "cardDescriptionText": "[attr='desc']",
     "cardLabelsButton": "[title='Labels']",
     "cardLabelClose": "[data-testid='popover-close']",
-    "cardLabelIcon": "[data-testid='card-back-labels-container']"
+    "cardLabelIcon": "[data-testid='card-back-labels-container']",
+    "cardAttachmentButton": "[data-testid='card-back-attachment-button']",
+    "cardLinkPicker": "[data-testid='link-picker']",
+    "cardAttachmentThumbnail": ".attachment-thumbnail"
   }
 }

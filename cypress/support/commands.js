@@ -52,6 +52,7 @@ Cypress.Commands.add("createBoard", (boardName) => {
 
 Cypress.Commands.add("selectBoard", (boardName) => {
     cy.get(`[title='${boardName}']`).click()
+    cy.wait(500)
     cy.get(selectors.board.nameDisplay).should("have.text", boardName);
 });
 
@@ -59,7 +60,9 @@ Cypress.Commands.add("createList", (listName) => {
     cy.get('[data-testid="list-composer-button-container"]').find('button').click()
     cy.get('[name="Enter list title…"]').type(listName)
     cy.contains('Add list').click()
+    cy.wait(500)
     cy.get(`[aria-label='${listName}']`).should('exist')
+    cy.reload(true)
 });
 
 Cypress.Commands.add("createCard", (listName, cardName) => {
@@ -74,7 +77,9 @@ Cypress.Commands.add("createCard", (listName, cardName) => {
 
 Cypress.Commands.add("editCard", (cardName) => {
     cy.contains('[data-testid="card-name"]', cardName).click()
-    cy.get('.window-title').find('h2').should('have.text', cardName)
+    cy.wait(500)
+    cy.get('#js-dialog-title').should('have.text', cardName)
+    //cy.get('.window-title').find('h2').should('have.text', cardName)
 });
 
 Cypress.Commands.add("addCardDescription", (cardName, cardDescription) => {
@@ -116,13 +121,14 @@ Cypress.Commands.add("addCardLink", (cardName, cardLink, cardLinkTitle) => {
     // Selects the right list
     cy.contains(listName).parent().siblings().click()
     cy.get('[data-testid="list-actions-move-list-button"]').click()
-    cy.wait(500)
+    cy.wait(1000)
     // Types and selects the new list
     cy.get('[data-testid="list-actions-move-list-popover"]').find('input').first().type(`${newBoard}{enter}`)
     cy.get('[data-testid="list-actions-move-list-popover"]').contains('button', 'Move').click()
     // Asserts that the list is not in the current board anymore
     cy.get('[data-testid="lists"]').should('not.contain', listName)
     // Asserts that the list exists (has been moved) to another board
+    // cy.get('[data-testid="boards-list-show-more-button"]').click()
     cy.get(`[aria-label='${newBoard}']`).click()
     cy.get('[data-testid="lists"]').should('contain', listName)
   })

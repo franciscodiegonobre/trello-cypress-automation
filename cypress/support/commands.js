@@ -57,15 +57,15 @@ Cypress.Commands.add("selectBoard", (boardName) => {
 });
 
 Cypress.Commands.add("createList", (listName) => {
-    cy.get('[data-testid="list-composer-button-container"]').find('button').click()
-    cy.get('[name="Enter list title…"]').type(listName)
+    cy.get(selectors.list.listContainer).find('button').click()
+    cy.get(selectors.list.listTitleInput).type(listName)
     cy.contains('Add list').click()
     cy.wait(500)
     cy.get(`[aria-label='${listName}']`).should('exist')
 });
 
 Cypress.Commands.add("createCard", (listName, cardName) => {
-    cy.contains('li', listName).find('[data-testid="list-add-card-button"]').then(cardList => {
+    cy.contains('li', listName).find(selectors.card.addCardButton).then(cardList => {
         cy.wrap(cardList).click()
         cy.get('form').find('textarea').type(cardName)
         cy.contains('Add card').click()

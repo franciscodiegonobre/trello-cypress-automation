@@ -19,8 +19,14 @@
     "closeBoard": "[title='Close board']",
     "closeBoardFinal": "[title='Close']"
   },
+  "list": {
+    "listContainer": "[data-testid='list-composer-button-container']",
+    "listTitleInput": "[name='Enter list title…']"
+  },
   "card": {
     "attachedLink": ".attachment-thumbnail-details-title-action",
-    "closeDialog": "[aria-label='Close dialog']"
+    "closeDialog": "[aria-label='Close dialog']",
+    "addCardButton": "[data-testid='list-add-card-button']",
+    "cardName": "[data-testid='card-name']"
   }
 }

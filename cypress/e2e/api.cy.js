@@ -1,0 +1,90 @@
+describe('API Tests', () => {
+    const apiKey = Cypress.env('apiKey');
+    const apiToken = Cypress.env('apiToken');
+    const apiUrl = 'https://api.trello.com/1';
+    let boardId;
+    let listId;
+    let cardId;
+
+    it('Creates a new board', () => {
+        cy.request('POST', `${apiUrl}/boards/?name=APITestBoard&key=${apiKey}&token=${apiToken}`)
+          .then((response) => {
+            expect(response.status).to.eq(200);
+            // Asserts that ID is present
+            expect(response.body).to.have.property('id');
+            // Asserts that the board name is correctly configured
+            expect(response.body).to.have.property('name', 'APITestBoard')
+            // Asserts that the board is not closed when created
+            expect(response.body.closed).to.be.false
+            boardId = response.body.id;
+          });
+      });
+
+    it('Creates a new list on the board', () => {
+    cy.request('POST', `${apiUrl}/lists?name=TestList&idBoard=${boardId}&key=${apiKey}&token=${apiToken}`)
+        .then((response) => {
+        expect(response.status).to.eq(200);
+        expect(response.body).to.have.property('id');
+        listId = response.body.id;
+        });
+    });
+
+    it('Gets lists from the board', () => {
+    cy.request(`https://api.trello.com/1/boards/${boardId}/lists?key=${apiKey}&token=${apiToken}`)
+        .then((response) => {
+        // Assert the status code
+        expect(response.status).to.eq(200);
+        // Assert the number of lists: 3 created by default + 1 created in the previous test
+        expect(response.body).to.have.lengthOf(4);
+        // Print the data
+        console.log(response)
+        })
+    });
+
+    it('Creates a new card on the list', () => {
+        cy.request(
+            'POST', 
+            `${apiUrl}/cards?idList=${listId}&key=${apiKey}&token=${apiToken}`,
+            {
+                name: 'API Test Card',
+                due: '12/12/2024'
+            })
+          .then((response) => {
+            expect(response.status).to.eq(200);
+            expect(response.body).to.have.property('id');
+            // Asserts that the card name is correctly configured
+            expect(response.body).to.have.property('name', 'API Test Card')
+            // Asserts the due date
+            expect(response.body.due).to.include('2024-12-12')
+            cardId = response.body.id;
+          });
+      });
+
+      it('Updates the previous card', () => {
+        let todayDate = new Date()
+        let formattedDate = todayDate.toISOString().split('T')[0]
+        cy.request(
+            'PUT', 
+            `${apiUrl}/cards/${cardId}?key=${apiKey}&token=${apiToken}`,
+            {
+                name: 'Updated API Test Card',
+                start: formattedDate
+            })
+          .then((response) => {
+            expect(response.status).to.eq(200);
+            // Asserts the updated name
+            expect(response.body).to.have.property('name', 'Updated API Test Card');
+            // Asserts the start date to be today
+            expect(response.body.start).to.include(formattedDate)
+          });
+      });
+
+    it('Deletes the board', () => {
+    cy.request('DELETE', `${apiUrl}/boards/${boardId}?key=${apiKey}&token=${apiToken}`)
+        .then((response) => {
+        expect(response.status).to.eq(200);
+        });
+    })
+  });
+
+  

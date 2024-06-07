@@ -7,13 +7,14 @@ describe('API Tests', () => {
     let cardId;
 
     it('Creates a new board', () => {
-        cy.request('POST', `${apiUrl}/boards/?name=APITestBoard&key=${apiKey}&token=${apiToken}`)
+        const boardName = 'APITestBoard'
+        cy.request('POST', `${apiUrl}/boards/?name=${boardName}&key=${apiKey}&token=${apiToken}`)
           .then((response) => {
             expect(response.status).to.eq(200);
             // Asserts that ID is present
             expect(response.body).to.have.property('id');
             // Asserts that the board name is correctly configured
-            expect(response.body).to.have.property('name', 'APITestBoard')
+            expect(response.body).to.have.property('name', boardName)
             // Asserts that the board is not closed when created
             expect(response.body.closed).to.be.false
             boardId = response.body.id;
@@ -21,7 +22,8 @@ describe('API Tests', () => {
       });
 
     it('Creates a new list on the board', () => {
-    cy.request('POST', `${apiUrl}/lists?name=TestList&idBoard=${boardId}&key=${apiKey}&token=${apiToken}`)
+        const listName = 'TestList'
+        cy.request('POST', `${apiUrl}/lists?name=${listName}&idBoard=${boardId}&key=${apiKey}&token=${apiToken}`)
         .then((response) => {
         expect(response.status).to.eq(200);
         expect(response.body).to.have.property('id');
@@ -42,12 +44,14 @@ describe('API Tests', () => {
     });
 
     it('Creates a new card on the list', () => {
+        const cardName = 'API Test Card'
+        const dueDate = '12/12/2024'
         cy.request(
             'POST', 
             `${apiUrl}/cards?idList=${listId}&key=${apiKey}&token=${apiToken}`,
             {
-                name: 'API Test Card',
-                due: '12/12/2024'
+                name: cardName,
+                due: dueDate
             })
           .then((response) => {
             expect(response.status).to.eq(200);
@@ -60,7 +64,7 @@ describe('API Tests', () => {
           });
       });
 
-      it('Updates the previous card', () => {
+      it('Updates the previous card with Name and Start date', () => {
         let todayDate = new Date()
         let formattedDate = todayDate.toISOString().split('T')[0]
         cy.request(
@@ -76,6 +80,21 @@ describe('API Tests', () => {
             expect(response.body).to.have.property('name', 'Updated API Test Card');
             // Asserts the start date to be today
             expect(response.body.start).to.include(formattedDate)
+          });
+      });
+
+      it('Adds a Comment to a card', () => {
+        const comment = 'API comment inserted'
+        cy.request(
+            'POST', 
+            `${apiUrl}/cards/${cardId}/actions/comments?key=${apiKey}&token=${apiToken}`,
+            {
+                text: comment,
+            })
+          .then((response) => {
+            expect(response.status).to.eq(200);
+            // Asserts the comment
+            expect(response.body.data).to.have.property('text', comment);
           });
       });
 
